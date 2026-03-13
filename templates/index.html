@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Nikhil | Portfolio Dashboard</title>
+      <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <!-- Load modern typography and icons -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+      <!-- Animated background elements -->
+      <div class="background-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+      </div>
+
+      <!-- Main unscrollable dashboard layout -->
+      <main class="dashboard-container">
+          <header class="header">
+              <!-- Replace Name if necessary -->
+              <h1>Hi, I'm <span class="highlight">Nikhil</span></h1>
+              <p>Software Developer & Designer</p>
+          </header>
+
+          <div class="grid-content">
+              <!-- Skills Section -->
+              <section class="card glass">
+                  <h2><i class="fas fa-code" aria-hidden="true"></i> Skills</h2>
+                  <div class="skills-tags">
+                      <span>HTML/CSS</span>
+                      <span>JavaScript</span>
+                      <span>Python</span>
+                      <span>Flask</span>
+                      <span>UI/UX</span>
+                      <span>REST APIs</span>
+                  </div>
+              </section>
+
+              <!-- Experience Section -->
+              <section class="card glass">
+                  <h2><i class="fas fa-briefcase" aria-hidden="true"></i> Experience</h2>
+                  <ul class="timeline">
+                      <li>
+                          <strong>Full-stack Developer</strong>
+                          <p>Detailed design and building of dynamic, stunning web applications.</p>
+                      </li>
+                  </ul>
+              </section>
+
+              <!-- Projects Section -->
+              <section class="card glass">
+                  <h2><i class="fas fa-rocket" aria-hidden="true"></i> Projects</h2>
+                  <div class="project-item">
+                      <h3>Portfolio Dashboard</h3>
+                      <p>Modern AI-integrated UI dashboard powered by Flask and Groq.</p>
+                  </div>
+                  <div class="project-item">
+                      <h3>E-Commerce Platform</h3>
+                      <p>Scalabl    <!-- Minimizable Chat Widget -->
+      <div class="chat-widget" id="chatWidget">
+          <div class="chat-header" id="chatHeader">
+              <span><i class="fas fa-robot"></i> Ask me anything</span>
+              <button id="toggleChat" aria-label="Toggle Chat"><i class="fas fa-chevron-down"></i></button>
+          </div>
+        <div class="chat-body" id="chatBody">
+              <div class="chat-messages" id="chatMessages">
+                  <div class="message bot-message">Hello! I'm Nikhil's AI assistant. Ask me questions about his resume!</div>
+              </div>
+              <form class="chat-input" id="chatForm">
+                  <input type="text" id="userInput" placeholder="Ask about Nikhil's skills or experience..." autocomplete="off" required>
+                  <button type="submit" aria-label="Send Message"><i class="fas fa-paper-plane"></i></button>
+              </form>
+          </div>
+      </div>
+
+      <!-- Chat interactions script -->
+      <script>
+          const chatWidget = document.getElementById('chatWidget');
+          const chatHeader = document.getElementById('chatHeader');
+          const toggleChatBtn = document.getElementById('toggleChat');
+        const toggleIcon = toggleChatBtn.querySelector('i');
+          const chatMessages = document.getElementById('chatMessages');
+          const chatForm = document.getElementById('chatForm');
+          const userInput = document.getElementById('userInput');
+
+        // Toggle the chat minimize/maximize feature
+        chatHeader.addEventListener('click', () => {
+                      chatWidget.classList.toggle('minimized');
+            if (chatWidget.classList.contains('minimized')) {
+                toggleIcon.classList.remove('fa-chevron-down');
+                toggleIcon.classList.add('fa-chevron-up');
+            } else {
+                toggleIcon.classList.remove('fa-chevron-up');
+                toggleIcon.classList.add('fa-chevron-down');
+            }
+});
+
+        // Appending new messages securely to innerText
+        function addMessage(text, sender, isLoading = false) {
+                      const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', `${sender}-message`);
+            if (isLoading) {
+                msgDiv.id = 'loading-' + Date.now();            msgDiv.classList.add('loading-msg');
+            }
+            msgDiv.innerText = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to latest
+            return msgDiv.id;
+        }
+
+        // Intercept form to send message to /chat
+        chatForm.addEventListener('submit', async (e) => {
+                      e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            const loadingId = addMessage('Analyzing resume...', 'bot', true);
+
+            try {
+                const response = await fetch('/chat', {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({ message })
+                  });
+                const data = await response.json();
+
+                document.getElementById(loadingId).remove();
+                addMessage(data.reply, 'bot');
+} catch (error) {
+                document.getElementById(loadingId).remove();
+                addMessage('An error occurred. Please try again.', 'bot');
+}
+});
+    </script>
+</body>
+</html>
+
+                msgDiv.cla
